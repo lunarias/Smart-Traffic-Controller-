@@ -1,0 +1,109 @@
+===================================================================================================================================
+Configure User name and email address (since every Git commit will use this information to identify you as the author.)
+====================================================================================================================================
+set username:
+/	git config --global user.name "YOUR_USERNAME"
+view set username:
+/	git config --global user.name
+
+set email:
+/	git config --global user.email "your_email_address@example.com"
+view set email:
+/	git config --global user.email
+
+
+view info set:
+/	git config --global --list
+
+===================================================
+		Managing Branches
+===================================================
+go to master brach:
+		
+/			git checkout master
+make new branch:
+		
+/			git checkout -b NAMEYOURBRANCH
+
+see branches:
+
+/			git branch
+
+delete a branch deletes locally saved branch and remote branch in git:
+
+/			git branch -d BRANCHNAME
+			git push -d origin BRANCHNAME
+
+============================
+	Merging
+============================
+
+merge a branch to master:
+
+/	git checkout BRANCHNAME
+	git merge master
+
+merge master to a branch:
+
+/	git checkout master
+	git merge BRANCHNAME
+
+
+=====================================================
+			Status
+=====================================================
+local changes in red may be new, modified, or deleted files/folders. those are needed to be staged for commiting
+/	git status
+
+view difference between local, unstaged changes and the repository versions that you cloned or pulled
+
+/	git diff
+
+
+=====================================================
+	Local changes (commit/update/add)
+=====================================================
+
+pull changes from branch (just "git pull" if want to pull in current branch):	
+
+/		git pull BRANCHNAME    
+
+stages a local file/folder for commiting (.) stands for all in git (*) for all in current folder
+
+/		git add FILEORFOLDER
+/		git add .
+/		git add *
+/		git add *.java			// add certain file types
+
+commit staged files:
+
+/		git commit -m "wut is this comment"
+
+Send changes to server (site):
+
+/		git push origin BRANCHNAME
+
+
+==============================================================
+	Create Repository
+==============================================================
+
+Make existing repo in git site to a local folder:
+
+		git clone https://linktogitproject
+		cd toFOLDER
+		touch README.md
+		git add README.md
+		git commit -m "add README"
+		git push -u origin master
+
+Make Existing folder a Repo
+	
+		cd existing_folder
+		git init
+		git remote add origin https://gitlab.cpsc.ucalgary.ca/shaina.rosell1/a5.git
+		git add .
+		git commit -m "Initial commit"
+		git push -u origin master
+
+
