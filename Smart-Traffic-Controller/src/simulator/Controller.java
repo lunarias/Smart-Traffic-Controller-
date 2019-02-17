@@ -21,7 +21,7 @@ public class Controller{
             for(int j = 0; j<grid_height; j++){
                 cars.get(i).add(0);
                 intersections.get(i).add(new Intersection());
-                roads.get(i).add(new Road());
+                roads.get(i).add(new Road(50));
             }
         }
     }
