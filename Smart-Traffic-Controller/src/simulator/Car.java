@@ -37,6 +37,7 @@ public class Car {
 
     public ArrayList<Boolean> getConditions(){
         ArrayList<Boolean> conditions = new ArrayList<>();
+        conditions.add(true);
         conditions.add(is_moving);
         conditions.add(is_accelerating);
         conditions.add(is_decrelerating);

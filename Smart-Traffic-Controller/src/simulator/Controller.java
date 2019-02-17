@@ -11,6 +11,7 @@ public class Controller{
     private ArrayList<ArrayList<Intersection>> intersections = new ArrayList<>();
     private ArrayList<ArrayList<Road>> roads = new ArrayList<>();
     private ArrayList<Car> list_car = new ArrayList<>();
+    private int max_cars = 280;
 
 
 
@@ -39,8 +40,46 @@ public class Controller{
     }
 
     public ArrayList<Boolean> check_front_car(int x, int y, Enumerations.Directions direction){
+        ArrayList<Boolean> no_car = new ArrayList<>();
+        for(int i=0; i<4; i++){
+            no_car.add(false);
+        }
+        ArrayList<Boolean> must_stop = new ArrayList<>();
+        must_stop.add(true);
+        for(int i=0; i<3; i++){
+            must_stop.add(false);
+        }
+        int id;
+        int front_x = x;
+        int front_y = y;
         switch (direction){
-
+            case EAST:
+                front_x = x+1;
+                break;
+            case WEST:
+                front_x = x-1;
+                break;
+            case NORTH:
+                front_y = y-1;
+                break;
+            case SOUTH:
+                front_y = y+1;
+                break;
+        }
+        if(0<=x && x<grid_width){
+            if(0<= y && y<grid_height){
+                id = cars.get(front_x).get(front_y);
+                if(id == -1){
+                    return no_car;
+                }
+                return list_car.get(id).getConditions();
+            }
+            else{
+                return must_stop;
+            }
+        }
+        else {
+            return must_stop;
         }
 
 
