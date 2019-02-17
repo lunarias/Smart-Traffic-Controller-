@@ -17,4 +17,8 @@ public class Space {
 	public int get_y() {
 		return this.y;
 	}
+
+	public String toString(){
+		return " ";
+	}
 }

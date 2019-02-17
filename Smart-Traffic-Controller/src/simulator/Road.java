@@ -1,11 +1,10 @@
 package simulator;
 
 //North and East are 0 index, South and West are 1 index
-public class Road extends Space{
+public class Road extends Car_Space{
     
     protected int speed_limit = 50;
     private Enumerations.Directions[] directions = new Enumerations.Directions[2];
-    private Car[] cars = new Car[2];
     private int weight;
     private boolean isSpawn;
     
@@ -32,28 +31,12 @@ public class Road extends Space{
     public int get_weight() {
     	return weight;
     }
-    
-    public Car[] getCars() {
-    	return this.cars;
+
+    @Override
+    public String toString() {
+        if(this.has_car()){
+            return "c";
+        }
+        return ".";
     }
-    
-    public void addCar(Car car, Enumerations.Directions direction) {
-    	if(direction == Enumerations.Directions.NORTH || direction == Enumerations.Directions.EAST) {
-    		cars[0] = car;
-    	}
-    	else {
-    		cars[1] = car;
-    	}
-    }
-    
-    public void deleteCar(Enumerations.Directions direction) {
-    	if(direction == Enumerations.Directions.NORTH || direction == Enumerations.Directions.EAST) {
-    		cars[0] = null;
-    	}
-    	else {
-    		cars[1] = null;
-    	}
-    }
-    
-    
 }

@@ -35,12 +35,33 @@ public class Controller{
     		directions[i] = true;
     		weights[i] = 4;
     	}
+    	map[0][0] = new Space(0,0);
+    	map[0][1] = new Space(0,1);
         map[0][2] = new Road(0, 2, 50, ns, 4, true);
         spawn_points.add((Road)(map[0][2]));
+		map[0][3] = new Space(0,3);
+		map[0][4] = new Space(0,4);
+		map[1][0] = new Space(1,0);
+		map[1][1] = new Space(1,1);
         map[1][2] = new Road(1, 2, 50, ns, 4, false);
+        map[1][3] = new Space(1,3);
+        map[1][4] = new Space(1,4);
+        map[2][0] = new Space(2,0);
+        map[2][1] = new Space(2,1);
         map[2][2] = new Intersection(2, 2, Enumerations.Signals.GREEN, 30, 30, 30, directions, weights);
+        map[2][3] = new Space(2,3);
+        map[2][4] = new Space(2,4);
+        map[3][0] = new Space(3,0);
+        map[3][1] = new Space(3,1 );
         map[3][2] = new Road(3, 2, 50, ns, 4, false);
+        map[3][3] = new Space(3,3);
+        map[3][4] = new Space(3,4);
+        map[4][0] = new Space(4,0);
+        map[4][1] = new Space(4,1);
         map[4][2] = new Road(4, 2, 50, ns, 4, true);
+        map[4][3] = new Space(4,3);
+        map[4][4] = new Space(4,4);
+
         spawn_points.add((Road)(map[4][2]));
         
         
@@ -59,20 +80,259 @@ public class Controller{
 			
 			random -= spawn_points.get(i).get_weight();
 			if(random < 0) {
+				Enumerations.Directions dir;
+				int speed = 0;
 				if(spawn_points.get(i).get_x() == 0) {
 					//if coming from the north
+					dir = Enumerations.Directions.SOUTH;
+					if(check_space(spawn_points.get(i).get_x() + 1, spawn_points.get(i).get_y(), dir)){
+						speed = 50;
+					}
 					
 				}
-				spawn_points.get(i).addCar(new Car(car_id++, spawn_points.get(i).get_x(), spawn_points.get(i).get_y(), 50, Enumerations.Directions direction), direction);
+				else{
+					if(spawn_points.get(i).get_x() == grid_height -1){
+						//coming from the south
+						dir = Enumerations.Directions.NORTH;
+						if(check_space(spawn_points.get(i).get_x() - 1, spawn_points.get(i).get_y(), dir)){
+							speed = 50;
+						}
+
+					}
+					else{
+						if(spawn_points.get(i).get_y() == 0){
+							//coming from west
+							dir = Enumerations.Directions.EAST;
+							if(check_space(spawn_points.get(i).get_x(), spawn_points.get(i).get_y() + 1, dir)){
+								speed = 50;
+							}
+
+						}
+						else{
+							//coming from East
+							dir = Enumerations.Directions.WEST;
+							if(check_space(spawn_points.get(i).get_x(), spawn_points.get(i).get_y() -1, dir)){
+								speed = 50;
+							}
+						}
+					}
+				}
+				int x = spawn_points.get(i).get_x();
+				int y = spawn_points.get(i).get_y();
+				((Road)map[x][y]).addCar(new Car(car_id++, x,y, speed, dir), dir);
+				return;
 			}
 		}
-		//poorly written code. this line should never be hit so we don't care
-		return Enumerations.Directions.get_direction(0);
     }
-    
+
+    public boolean check_space(int x, int y, Enumerations.Directions dir){
+
+    	if(map[x][y].getClass() == Intersection.class ){
+			Intersection sec = (Intersection) map[x][y];
+			if(sec.is_car_here(dir)|| sec.getSignal(dir).equals(Enumerations.Signals.RED)){
+				return false;
+			}
+			else{
+				return true;
+			}
+
+		}
+		else {
+    		if(map[x][y].getClass() ==  Road.class){
+				Road rec = (Road)map[x][y];
+				if(rec.is_car_here(dir)){
+					return false;
+				}
+				else{
+					return true;
+				}
+
+			}
+		}
+		return false;
+	}
+	public void move_car(Space place, Enumerations.Directions dir){
+    	if(place.getClass() == Road.class){
+    		Road inter = (Road) place;
+    		Car car;
+			if(dir == Enumerations.Directions.NORTH || dir == Enumerations.Directions.EAST){
+				car = inter.get_car_0();
+			}
+			else{
+				car = inter.get_car_1();
+			}
+			if(car != null){
+				boolean can_move = false;
+				switch(dir){
+					case NORTH:
+						can_move = check_space(car.getX()-1, car.getY(), Enumerations.Directions.NORTH);
+						break;
+					case SOUTH:
+						can_move = check_space(car.getX()+1, car.getY(), Enumerations.Directions.SOUTH);
+						break;
+					case EAST:
+						can_move = check_space(car.getX(), car.getY()+1, Enumerations.Directions.EAST);
+						break;
+					case WEST:
+						can_move = check_space(car.getX(), car.getY()-1, Enumerations.Directions.WEST);
+						break;
+				}
+				if(can_move){
+					((Road) place).deleteCar(dir);
+					switch(dir){
+						case NORTH:
+							if(map[place.get_x()-1][place.get_y()].getClass() == Intersection.class ||
+									map[place.get_x()-1][place.get_y()].getClass() == Road.class){
+								((Car_Space)(map[place.get_x()-1][place.get_y()])).addCar(car, dir);
+							}
+
+							break;
+						case SOUTH:
+							if(map[place.get_x()+1][place.get_y()].getClass() == Intersection.class ||
+									map[place.get_x()+1][place.get_y()].getClass() == Road.class){
+								((Car_Space)(map[place.get_x()+1][place.get_y()])).addCar(car, dir);
+							}
+							break;
+						case EAST:
+							if(map[place.get_x()][place.get_y()+1].getClass() == Intersection.class ||
+									map[place.get_x()][place.get_y()+1].getClass() == Road.class){
+								((Car_Space)(map[place.get_x()][place.get_y()+1])).addCar(car, dir);
+							}
+
+							break;
+						case WEST:
+							if(map[place.get_x()][place.get_y()-1].getClass() == Intersection.class ||
+									map[place.get_x()][place.get_y()-1].getClass() == Road.class){
+								((Car_Space)(map[place.get_x()][place.get_y()-1])).addCar(car, dir);
+							}
+							break;
+					}
+				}
+			}
+		}
+		else{
+    		if(place.getClass() == Intersection.class){
+    			Intersection inter = (Intersection) place;
+				Car car;
+				if(dir == Enumerations.Directions.NORTH || dir == Enumerations.Directions.EAST){
+					car = inter.get_car_0();
+				}
+				else{
+					car = inter.get_car_1();
+				}
+				if(car != null){
+					Enumerations.Directions nextdir = inter.calculateDirection(dir);
+					boolean can_move = false;
+					switch(nextdir){
+						case NORTH:
+							can_move = check_space(car.getX()-1, car.getY(), Enumerations.Directions.NORTH);
+							break;
+						case SOUTH:
+							can_move = check_space(car.getX()+1, car.getY(), Enumerations.Directions.SOUTH);
+							break;
+						case EAST:
+							can_move = check_space(car.getX(), car.getY()+1, Enumerations.Directions.EAST);
+							break;
+						case WEST:
+							can_move = check_space(car.getX(), car.getY()-1, Enumerations.Directions.WEST);
+							break;
+					}
+					if(can_move) {
+						car.change_direction(nextdir);
+						((Intersection)place).deleteCar(dir);
+						switch (dir) {
+							case NORTH:
+								if (map[place.get_x() - 1][place.get_y()].getClass() == Intersection.class ||
+										map[place.get_x() - 1][place.get_y()].getClass() == Road.class) {
+									((Car_Space) (map[place.get_x() - 1][place.get_y()])).addCar(car, dir);
+								}
+
+								break;
+							case SOUTH:
+								if (map[place.get_x() + 1][place.get_y()].getClass() == Intersection.class ||
+										map[place.get_x() + 1][place.get_y()].getClass() == Road.class) {
+									((Car_Space) (map[place.get_x() + 1][place.get_y()])).addCar(car, dir);
+								}
+								break;
+							case EAST:
+								if (map[place.get_x()][place.get_y() + 1].getClass() ==Intersection.class ||
+										map[place.get_x()][place.get_y() + 1].getClass() == Road.class) {
+									((Car_Space) (map[place.get_x()][place.get_y() + 1])).addCar(car, dir);
+								}
+
+								break;
+							case WEST:
+								if (map[place.get_x()][place.get_y() - 1].getClass() ==Intersection.class ||
+										map[place.get_x()][place.get_y() - 1].getClass() == Road.class) {
+									((Car_Space) (map[place.get_x()][place.get_y() - 1])).addCar(car, dir);
+								}
+								break;
+						}
+					}
+				}
+			}
+		}
+	}
+
+
+
+
     public void update() {
-    	
-    }
+		boolean[] directions = new boolean[4];
+		int[] weights = new int[4];
+		Enumerations.Directions[] ns = new Enumerations.Directions[2];
+		for(int i=0; i<grid_height; i++){
+			for(int j=0; j<grid_width; j++){
+				if(map[i][j].getClass() == Intersection.class){
+					((Intersection)map[i][j]).updateIntersection();
+				}
+			}
+		}
+		for(int i=0; i<grid_height; i++) {
+			for (int j=0; j < grid_width; j++) {
+				if(map[i][j].getClass() == Intersection.class ||
+						map[i][j].getClass() == Road.class){
+					move_car(map[i][j], Enumerations.Directions.WEST);
+				}
+			}
+		}
+		for(int i=0; i<grid_height; i++) {
+			for (int j=grid_width-1; j >0; j--) {
+				if(map[i][j].getClass() == Intersection.class ||
+						map[i][j].getClass() == Road.class){
+					move_car(map[i][j], Enumerations.Directions.EAST);
+				}
+			}
+		}
+		for(int j=0; j< grid_width; j++){
+			for(int i=0; i<grid_height; i++){
+				if(map[i][j].getClass() == Intersection.class ||
+						map[i][j].getClass() == Road.class){
+					move_car(map[i][j], Enumerations.Directions.NORTH);
+				}
+			}
+		}
+
+		for(int j=0; j< grid_width; j++){
+			for(int i=grid_height-1; i>0; i--){
+				if(map[i][j].getClass() == Intersection.class ||
+						map[i][j].getClass() == Road.class){
+					move_car(map[i][j], Enumerations.Directions.NORTH);
+				}
+			}
+		}
+
+
+	}
+
+	public void printout(){
+    	for(int j=0; j<grid_width; j++){
+    		for(int i=0; i<grid_height; i++){
+    			System.out.print(map[i][j].toString());
+			}
+			System.out.println();
+		}
+	}
 /*
     public void spawn_car(Enumerations.Directions dir) {
         int id = list_car.size();
@@ -138,6 +398,15 @@ public class Controller{
     }
 */
     public static void main(String[] args) {
+    	Controller help = new Controller();
+    	help.printout();
+    	help.spawnCar();
+    	help.spawnCar();
+    	help.printout();
+    	for(int i=0; i<50; i++){
+    		help.update();
+    		help.printout();
+		}
     	
     }
 

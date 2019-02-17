@@ -1,7 +1,7 @@
 package simulator;
 import java.util.Random;
 
-public class Intersection extends Space {
+public class Intersection extends Car_Space {
 
 	private Enumerations.Signals signalNS; //North South signal
 	private Enumerations.Signals signalWE; //West East signal
@@ -10,7 +10,6 @@ public class Intersection extends Space {
 	private int tick_rateNS;
 	private int tick_rateWE;
 	private int tick;
-    private Car[] cars = new Car[2];
 	
 	public Intersection(int x, int y, Enumerations.Signals signalNS, int tick_rateNS, int tick_rateWE, int tick, boolean[] directions, int[] weights) {
 		super(x, y);
@@ -94,27 +93,9 @@ public class Intersection extends Space {
 			}
 		}
 	}
-	
-    public Car[] getCars() {
-    	return this.cars;
+
+    @Override
+    public String toString() {
+        return "+";
     }
-    
-    public void addCar(Car car, Enumerations.Directions direction) {
-    	if(direction == Enumerations.Directions.NORTH || direction == Enumerations.Directions.EAST) {
-    		cars[0] = car;
-    	}
-    	else {
-    		cars[1] = car;
-    	}
-    }
-    
-    public void deleteCar(Enumerations.Directions direction) {
-    	if(direction == Enumerations.Directions.NORTH || direction == Enumerations.Directions.EAST) {
-    		cars[0] = null;
-    	}
-    	else {
-    		cars[1] = null;
-    	}
-    }
-	
 }
