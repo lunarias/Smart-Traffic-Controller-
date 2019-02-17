@@ -12,15 +12,21 @@ public class Car {
     private int frames_waiting = 0;
     private int x;
     private int y;
+    private Direction facing_direction;
     private ArrayList<Integer> idle_times = new ArrayList<>();
 
-    public Car(int num, int x, int y){
+    public Car(int num, int x, int y, Direction direction){
         id = num;
         this.x = x;
         this.y = y;
         current_speed = 0;
+        this.facing_direction = direction;
     }
 
+    public void change_direction(Direction direction) {
+        this.facing_direction = direction;
+    }
+    
     public int getX(){
         return x;
     }
