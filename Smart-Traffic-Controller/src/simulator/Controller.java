@@ -24,9 +24,9 @@ public class Controller{
         }
     }
 
-    public void place_car(int x, int y) {
+    public void place_car(int x, int y, Enumerations.Directions dir) {
         int id = list_car.size();
-        list_car.add(new Car(id,x ,y));
+        list_car.add(new Car(id,x ,y, dir));
         cars.get(x).set(y, id);
     }
 
@@ -38,6 +38,13 @@ public class Controller{
 
     }
 
+    public ArrayList<Boolean> check_front_car(int x, int y, Enumerations.Directions direction){
+        switch (direction){
+
+        }
+
+
+    }
     public void move_all_cars(){
 
     }

@@ -12,10 +12,10 @@ public class Car {
     private int frames_waiting = 0;
     private int x;
     private int y;
-    private Direction facing_direction;
+    private Enumerations.Directions facing_direction;
     private ArrayList<Integer> idle_times = new ArrayList<>();
 
-    public Car(int num, int x, int y, Direction direction){
+    public Car(int num, int x, int y, Enumerations.Directions direction){
         id = num;
         this.x = x;
         this.y = y;
@@ -23,7 +23,7 @@ public class Car {
         this.facing_direction = direction;
     }
 
-    public void change_direction(Direction direction) {
+    public void change_direction(Enumerations.Directions direction) {
         this.facing_direction = direction;
     }
     
