@@ -9,11 +9,34 @@ public class Car {
     private boolean is_moving = false;
     private boolean is_decrelerating = false;
     private boolean is_accelerating = false;
-    private int frames_since_moved = 0;
+    private int frames_waiting = 0;
+    private int x;
+    private int y;
     private ArrayList<Integer> idle_times = new ArrayList<>();
 
-    public Car(int num){
+    public Car(int num, int x, int y){
         id = num;
+        this.x = x;
+        this.y = y;
+        current_speed = 0;
     }
+
+    public int getX(){
+        return x;
+    }
+
+    public int getY(){
+        return y;
+    }
+
+    public ArrayList<Boolean> getConditions(){
+        ArrayList<Boolean> conditions = new ArrayList<>();
+        conditions.add(is_moving);
+        conditions.add(is_accelerating);
+        conditions.add(is_decrelerating);
+        return conditions;
+    }
+
+
 
 }
