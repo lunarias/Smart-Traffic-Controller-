@@ -12,19 +12,13 @@ public class Controller{
     private int max_cars = 280;
     private Car[][] cars = new Car[][];
     private Intersection[][] intersections = new Intersection[][];
-    private Road[][] roads = new Road[][];
+    private Road[][] roads = new Road[grid_height][grid_width];
 
 
 
 
     public Controller(){
-        for(int i=0; i<grid_width; i++ ){
-            intersections.add(new ArrayList<>(grid_height));
-            roads.add(new ArrayList<>(grid_height));
-            for(int j=0; j<grid_height; j++){
-                cars.get(i).add(-1);
-            }
-        }
+        roads[0][2] = 
     }
 
     public void spawn_car(Enumerations.Directions dir) {
