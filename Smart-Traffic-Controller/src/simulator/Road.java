@@ -11,31 +11,25 @@ public class Road {
     }
     
     public enum Condition {
-        ICY("Icy"),
-        WET("Wet"),
-        SNOWY("Snowy"),
-        DRY("Dry");
+        ICY("Icy", 0.18),
+        WET("Wet", 0.4),
+        SNOWY("Snowy", 0.28),
+        DRY("Dry", 0.6);
     
         public String str;
+        public Double coefficient;
     
-        Condition(String str) {
+        Condition(String str, double coefficient) {
             this.str = str;
+            this.coefficient = coefficient;
         }
         
         public String get_condition() {
             return this.str;
         }
         
-        public double get_friction_coefficient(Condition) {
-            if (Condition.ICY) {
-                return 0.18;
-            } else if (Condition.SNOWY) {
-                return 0.28;
-            } else if (Condition.WET) {
-                return 0.4;
-            } else if (Condition.DRY) {
-                return 0.6;
-            }
+        public double get_friction_coefficient() {
+            return this.coefficient;
         }
     
     }
