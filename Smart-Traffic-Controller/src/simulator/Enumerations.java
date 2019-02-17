@@ -21,6 +21,16 @@ public class Enumerations {
         	return this.order;
         }
         
+        public static Directions get_direction(int i) {
+        	if(i == 0)
+        		return NORTH;
+        	else if(i == 1)
+        		return EAST;
+        	else if(i == 2)
+        		return SOUTH;
+        	else
+        		return WEST;
+        }
     }
 
     public enum Signals {

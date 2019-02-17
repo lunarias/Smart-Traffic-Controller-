@@ -10,11 +10,11 @@ public class Space {
 		this.y = y;
 	}
 	
-	private int get_x() {
+	public int get_x() {
 		return this.x;
 	}
 	
-	private int get_y() {
+	public int get_y() {
 		return this.y;
 	}
 }
