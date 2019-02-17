@@ -16,13 +16,22 @@ public class Controller{
 
     public Controller(){
         for(int i=0; i<grid_width; i++ ){
-            cars.add(new ArrayList<>(grid_height));
             intersections.add(new ArrayList<>(grid_height));
             roads.add(new ArrayList<>(grid_height));
+            for(int j=0; j<grid_height; j++){
+                cars.get(i).add(-1);
+            }
         }
     }
 
     public void place_car(int x, int y) {
+        int id = list_car.size();
+        list_car.add(new Car(id));
+        cars.get(x).set(y, id);
+    }
+
+    public void move_car(int id, int old_x, int old_y){
+
     }
 
 
