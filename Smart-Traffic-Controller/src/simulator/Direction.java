@@ -11,7 +11,7 @@ public class Direction {
     
         public String str;
     
-        Direction(String str) {
+        Directions(String str) {
             this.str = str;
         }
         
