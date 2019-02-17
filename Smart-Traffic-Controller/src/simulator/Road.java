@@ -1,26 +1,23 @@
 package simulator;
-import java.util.List;
 
-public class Road {
+//North and East are 0 index, South and West are 1 index
+public class Road extends Space{
     
-    protected int speed_limit = 0;
-    private List ticks;
-    private List directions_list;
+    protected int speed_limit = 50;
+    private Enumerations.Directions[] directions = new Enumerations.Directions[2];
+    private Car[] cars = new Car[2];
     private int weight;
     
-    public Road (int speed_limit, List directions, int weight){
-        this.speed_limit = speed_limit;
-        this.directions_list = directions;
+    public Road (int x, int y, int speed_limit, Enumerations.Directions[] directions, int weight){
+        super(x, y);
+    	this.speed_limit = speed_limit;
+        this.directions = directions;
         this.weight = weight;
     }
 
     
-    public boolean is_valid_path(Enumerations direction) {
-        if (this.directions_list.contains(direction)) {
-            return true;
-        } else {
-            return false;
-        }
+    public Enumerations.Directions[] get_directions() {
+        return directions;
     }
     
     public int get_speed_limit() {
@@ -31,5 +28,25 @@ public class Road {
     	return weight;
     }
     
+    public Car[] getCars() {
+    	return this.cars;
+    }
     
+    public void addCar(Car car, Enumerations.Directions direction) {
+    	if(direction == Enumerations.Directions.NORTH || direction == Enumerations.Directions.EAST) {
+    		cars[0] = car;
+    	}
+    	else {
+    		cars[1] = car;
+    	}
+    }
+    
+    public void deleteCar(Enumerations.Directions direction) {
+    	if(direction == Enumerations.Directions.NORTH || direction == Enumerations.Directions.EAST) {
+    		cars[0] = null;
+    	}
+    	else {
+    		cars[1] = null;
+    	}
+    }
 }

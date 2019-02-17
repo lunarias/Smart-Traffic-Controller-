@@ -4,19 +4,37 @@ public class Enumerations {
     
     public enum Directions {
         
-        NORTH("North"),
-        EAST("East"),
-        SOUTH("South"),
-        WEST("West");
+        NORTH("North", 0),
+        EAST("East", 1),
+        SOUTH("South", 2),
+        WEST("West", 3);
     
         public String str;
+        public int order;
     
-        Directions(String str) {
+        Directions(String str, int order) {
             this.str = str;
+            this.order = order;
+        }
+        
+        public int getOrder() {
+        	return this.order;
         }
         
     }
 
+    public enum Signals {
+    	GREEN("Green"),
+    	YELLOW("Yellow"),
+    	RED("Red");
+    	
+    	public String str;
+        
+        Signals(String str) {
+            this.str = str;
+        }
+    }
+    
     public enum Condition {
         ICY("Icy", 0.18),
         WET("Wet", 0.4),
