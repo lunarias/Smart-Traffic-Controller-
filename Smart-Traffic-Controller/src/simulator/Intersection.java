@@ -1,27 +1,30 @@
 package simulator;
+import java.util.List;
 
 public class Intersection {
     
-    public Intersection() {
+    private int carsPassed;
+    private List directions_active;
     
+    
+    public Intersection(List directions) {
+        this.directions_active = directions;
     }
     
-    private boolean ns_status;
-    private boolean ew_status;
     
-    public void set_ns_status(Boolean status) {
-        this.ns_status = status;
+    public boolean is_n_active(Direction checkDirection) {
+        return ();
     }
     
-    public void set_ew_status(Boolean status) {
-        this.ew_status = status;
+    public boolean is_e_active(Direction checkDirection) {
+        return ew_status;
     }
     
-    public boolean is_nw_active() {
-        return ns_status;
+    public boolean is_s_active(Direction checkDirection) {
+        return ew_status;
     }
     
-    public boolean is_ew_active() {
+    public boolean is_w_active(Direction checkDirection) {
         return ew_status;
     }
     
