@@ -3,11 +3,13 @@ import java.util.List;
 
 public class Road {
     
-    private int max_speed;
+    protected int speed_limit = 0;
     private List ticks;
+    private List directions_list;
     
-    public Road (int speed){
-        set_speed(speed);
+    public Road (int speed, List directions){
+        this.speed_limit = speed;
+        this.directions_list = directions;
     }
     
     public enum Condition {
@@ -31,13 +33,20 @@ public class Road {
         public double get_friction_coefficient() {
             return this.coefficient;
         }
+        
+    }
     
+    public boolean is_valid_path(Direction direction) {
+        if (this.directions_list.contains(direction)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public int get_speed_limit() {
+        return speed_limit;
     }
     
     
-    public void set_speed(int speed) {
-        this.max_speed = speed;
-    }
-    
-
 }
