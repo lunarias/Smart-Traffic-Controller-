@@ -7,11 +7,13 @@ public class Controller{
     private int grid_height = 8;
     private int grid_width = 8;
 
-    private ArrayList<ArrayList<Integer>> cars = new ArrayList<>();
-    private ArrayList<ArrayList<Intersection>> intersections = new ArrayList<>();
-    private ArrayList<ArrayList<Road>> roads = new ArrayList<>();
+
     private ArrayList<Car> list_car = new ArrayList<>();
     private int max_cars = 280;
+    private Car[][] cars = new Car[][];
+    private Intersection[][] intersections = new Intersection[][];
+    private Road[][] roads = new Road[][];
+
 
 
 
@@ -25,7 +27,7 @@ public class Controller{
         }
     }
 
-    public void place_car(int x, int y, Enumerations.Directions dir) {
+    public void spawn_car(Enumerations.Directions dir) {
         int id = list_car.size();
         list_car.add(new Car(id,x ,y, dir));
         cars.get(x).set(y, id);
@@ -85,6 +87,10 @@ public class Controller{
 
     }
     public void move_all_cars(){
+
+    }
+
+    public static void main(String[] args) {
 
     }
 
