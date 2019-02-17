@@ -7,7 +7,7 @@ public class Car {
     private double current_speed = 0;
     private double braking_ratio = 0;
     private boolean is_moving = false;
-    private boolean is_decrelerating = false;
+    private boolean is_decelerating = false;
     private boolean is_accelerating = false;
     private int frames_waiting = 0;
     private int x;
@@ -39,7 +39,7 @@ public class Car {
         ArrayList<Boolean> conditions = new ArrayList<>();
         conditions.add(is_moving);
         conditions.add(is_accelerating);
-        conditions.add(is_decrelerating);
+        conditions.add(is_decelerating);
         return conditions;
     }
 
