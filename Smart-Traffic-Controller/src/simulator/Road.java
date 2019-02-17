@@ -25,6 +25,18 @@ public class Road {
         public String get_condition() {
             return this.str;
         }
+        
+        public double get_friction_coefficient(Condition) {
+            if (Condition.ICY) {
+                return 0.18;
+            } else if (Condition.SNOWY) {
+                return 0.28;
+            } else if (Condition.WET) {
+                return 0.4;
+            } else if (Condition.DRY) {
+                return 0.6;
+            }
+        }
     
     }
     
